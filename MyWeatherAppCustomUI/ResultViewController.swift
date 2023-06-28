@@ -9,6 +9,15 @@ import UIKit
 import Kingfisher
 import SwiftUI
 
+// 절대온도를 섭씨로 변환
+public func kToC(kelvin: Double) -> Double {
+    let celsius: Double
+    
+    celsius = kelvin - 273.15
+    
+    return celsius
+}
+
 class ResultViewController: UIViewController {
     
     var weatherInfo: [String:Any]?
@@ -50,6 +59,7 @@ class ResultViewController: UIViewController {
         table.register(NameTableViewCell.self, forCellReuseIdentifier: NameTableViewCell.id)
         table.register(WeekTableViewCell.self, forCellReuseIdentifier: WeekTableViewCell.id)
         table.register(MainTableViewCell.self, forCellReuseIdentifier: MainTableViewCell.id)
+        table.register(WeatherTableViewCell.self, forCellReuseIdentifier: WeatherTableViewCell.id)
     }
     
     func getWeatherKeyValue() {
@@ -76,14 +86,6 @@ class ResultViewController: UIViewController {
         }
     }
     
-    // 절대온도를 섭씨로 변환
-    func kToC(kelvin: Double) -> Double {
-        let celsius: Double
-        
-        celsius = kelvin - 273.15
-        
-        return celsius
-    }
 }
 
 extension ResultViewController: UITableViewDelegate {
@@ -99,13 +101,15 @@ extension ResultViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         if weatherKeys[section] == "week" {
             return "7일간의 일기예보"
+        } else if weatherKeys[section] == "coord" {
+            return "위치 정보"
         } else {
             return ""
         }
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 4
+        return 5
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -199,6 +203,13 @@ extension ResultViewController: UITableViewDataSource {
                 return UITableViewCell()
             }
             cell.mainConfigure(with: mainDict)
+            cell.backgroundColor = .systemGray6
+            return cell
+        } else if sectionKey == "weather" {
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: WeatherTableViewCell.id, for: indexPath) as? WeatherTableViewCell else {
+                return UITableViewCell()
+            }
+            cell.backgroundColor = .systemGray6
             return cell
         }
         
