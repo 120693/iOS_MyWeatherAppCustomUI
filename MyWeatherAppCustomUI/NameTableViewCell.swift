@@ -96,7 +96,9 @@ class NameTableViewCell: UITableViewCell {
         contentView.addSubview(outerStackView)
         
         outerStackView.snp.makeConstraints { make in
-            make.top.right.left.bottom.equalTo(contentView)
+            make.right.left.equalTo(contentView)
+            make.top.equalTo(contentView).offset(10)
+            make.bottom.equalTo(contentView).offset(-10)
         }
     }
 

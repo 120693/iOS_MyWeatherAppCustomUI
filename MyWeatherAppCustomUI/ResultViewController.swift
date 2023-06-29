@@ -39,7 +39,7 @@ class ResultViewController: UIViewController {
         super.viewDidLoad()
         getWeatherKeyValue()
         table.dataSource = self
-                
+
         self.view.addSubview(table)
         
         table.snp.makeConstraints { make in
@@ -66,6 +66,7 @@ class ResultViewController: UIViewController {
         if let weatherInfo = weatherInfo {
             for (_ , value) in weatherInfo {
                 weatherValues.append(value)
+                print(value)
             }
         }
         
@@ -183,6 +184,7 @@ extension ResultViewController: UITableViewDataSource {
                 cell.iconImageView.kf.setImage(with: url)
                 
                 cell.iconImageView.contentMode = .scaleAspectFill
+            
             } else {
                 return cell
             }

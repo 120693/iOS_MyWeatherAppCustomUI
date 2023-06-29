@@ -12,8 +12,6 @@ class HomeViewController: UIViewController {
     
     let cityNameTextField = UITextField()
     
-    let resultViewController = ResultViewController()
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -85,6 +83,9 @@ class HomeViewController: UIViewController {
     }
     
     func getWeather(cityName: String) {
+        
+        let resultViewController = ResultViewController()
+        
         let apiKey = "a8c1d55d8c112dbe5f0576f243f507ac"
         var components = URLComponents()
         
@@ -108,11 +109,11 @@ class HomeViewController: UIViewController {
             guard let weatherModel = try? decoder.decode(WeatherModel.self, from: data) else { return }
             // debugPrint(weatherModel)
             guard let weatherDictionary = self.encodeModelToDictionary(model: weatherModel) else { return }
-            self.resultViewController.weatherInfo = weatherDictionary
+            resultViewController.weatherInfo = weatherDictionary
             //debugPrint(weatherDictionary)
             // 메인 스레드에서 작업
             DispatchQueue.main.async {
-                self.navigationController?.pushViewController(self.resultViewController, animated: true)
+                self.navigationController?.pushViewController(resultViewController, animated: true)
             }
         }.resume()
     }
